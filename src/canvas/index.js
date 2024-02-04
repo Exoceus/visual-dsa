@@ -3,9 +3,17 @@ import {canvasConfig} from "./config.js";
 import {handleClick} from "./interactions/click.js";
 import {getState} from "./state.js";
 
+let clickedDown = false;
+
 export function renderCanvas(canvasElement) {
     let {height, width} = canvasConfig;
     canvasElement.innerHTML = ``;
+    canvasElement.onmousedown = function () {
+        clickedDown = true;
+    };
+    canvasElement.onmouseup = function () {
+        clickedDown = false;
+    };
 
     for (let i = 0; i < height; i++) {
         let canvasRow = document.createElement("div");
@@ -17,8 +25,11 @@ export function renderCanvas(canvasElement) {
             cell.id = `cell-${i}-${j}`;
             cell.className = `canvas-cell`;
             cell.style = canvasRow.appendChild(cell);
-            cell.onclick = function () {
-                handleClick(i, j);
+
+            cell.onmouseover = function () {
+                if (clickedDown) {
+                    handleClick(i, j);
+                }
             };
 
             let {backgroundColor} = getState(i, j);
