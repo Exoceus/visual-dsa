@@ -1,5 +1,11 @@
-import {renderCanvas} from "./canvas/index.js";
+import Canvas from "./canvas/index.js";
 
 const canvasElement = document.querySelector("#canvas");
+const resetButton = document.querySelector("#reset-btn");
 
-renderCanvas(canvasElement);
+let canvas = new Canvas(canvasElement);
+canvas.renderCanvas();
+
+resetButton.onclick = function () {
+    canvas.resetCanvas();
+};
