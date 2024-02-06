@@ -18,6 +18,7 @@ export default class Canvas {
     }
 
     resetCanvas() {
+        this.state = new CanvasState(this.height, this.width);
         this.emptyCanvas();
         this.renderCanvas();
     }
