@@ -4,6 +4,7 @@ export default class CanvasState {
         this.width = width;
 
         this.state = [];
+        this.counter = {};
 
         this.initState();
     }
@@ -18,6 +19,9 @@ export default class CanvasState {
                         width: "10px",
                         height: "10px",
                     },
+                    data: {
+                        type: "empty",
+                    },
                 });
             }
             this.state.push(row);
@@ -28,14 +32,23 @@ export default class CanvasState {
         return this.state[row][column];
     }
 
+    getStateData(row, column) {
+        return this.state[row][column].data;
+    }
+
+    setStateData(row, column, data) {
+        this.state[row][column].data = {...this.getStateData(row, column), ...data};
+        return this.getStateData(row, column);
+    }
+
     getStyle(row, column) {
         return this.state[row][column].style;
     }
 
     setStyle(row, column, styles) {
-        this.state[row][column].style = {...this.state[row][column], ...styles};
+        this.state[row][column].style = {...this.getStyle(row, column), ...styles};
         this.applyStyle(row, column);
-        return this.state[row][column];
+        return this.getStyle(row, column);
     }
 
     initStyles() {
