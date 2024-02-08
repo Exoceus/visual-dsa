@@ -9,14 +9,17 @@ export default class CanvasState {
     }
 
     initState() {
+        let windowWidth = window.innerWidth;
+        let pixelLength = Math.floor(windowWidth / this.width);
+        console.log();
         for (let i = 0; i < this.height; i++) {
             let row = [];
             for (let j = 0; j < this.width; j++) {
                 row.push({
                     style: {
                         background: "black",
-                        width: "15px",
-                        height: "15px",
+                        width: `${pixelLength}px`,
+                        height: `${pixelLength}px`,
                     },
                     data: {},
                 });
