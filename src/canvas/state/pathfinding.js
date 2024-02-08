@@ -15,6 +15,8 @@ export default class PathfindingState extends CanvasState {
         barrier: "white",
         start: "yellow",
         end: "red",
+        visited: "blue",
+        path: "green",
     };
 
     initCellTypes() {
@@ -23,6 +25,10 @@ export default class PathfindingState extends CanvasState {
                 this.setStateData(i, j, {type: "empty"});
             }
         }
+    }
+
+    getCellType(row, column) {
+        return this.getStateData(row, column).type;
     }
 
     setCellType(row, column, cellType) {
@@ -40,5 +46,13 @@ export default class PathfindingState extends CanvasState {
 
         this.setStateData(row, column, {type: cellType});
         this.setStyle(row, column, {background: this.cellColors[cellType]});
+    }
+
+    getStartCell() {
+        return this.startCell;
+    }
+
+    getEndCell() {
+        return this.endCell;
     }
 }
