@@ -4,7 +4,6 @@ export default class CanvasState {
         this.width = width;
 
         this.state = [];
-        this.counter = {};
 
         this.initState();
     }
@@ -16,20 +15,14 @@ export default class CanvasState {
                 row.push({
                     style: {
                         background: "black",
-                        width: "10px",
-                        height: "10px",
+                        width: "15px",
+                        height: "15px",
                     },
-                    data: {
-                        type: "empty",
-                    },
+                    data: {},
                 });
             }
             this.state.push(row);
         }
-    }
-
-    getState(row, column) {
-        return this.state[row][column];
     }
 
     getStateData(row, column) {

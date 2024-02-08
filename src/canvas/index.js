@@ -1,7 +1,7 @@
 import {applyStyle} from "../utils/style.js";
 import {canvasConfig} from "./config.js";
 import {handleClick} from "./interactions/click.js";
-import CanvasState from "./state.js";
+import CanvasState from "./state/pathfinding.js";
 
 let clickedDown = false;
 
@@ -18,7 +18,7 @@ export default class Canvas {
     }
 
     resetCanvas() {
-        this.state = new CanvasState(this.height, this.width);
+        this.state = new PathfindingState(this.height, this.width);
         this.emptyCanvas();
         this.renderCanvas();
     }

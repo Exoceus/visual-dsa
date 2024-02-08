@@ -1,4 +1,4 @@
 export const canvasConfig = {
-    height: 100,
+    height: 56,
     width: 100,
 };
