@@ -55,4 +55,18 @@ export default class PathfindingState extends CanvasState {
     getEndCell() {
         return this.endCell;
     }
+
+    setRandomBarriers() {
+        let barrierFreq = 0.2;
+        for (let i = 0; i < this.height; i++) {
+            for (let j = 0; j < this.width; j++) {
+                let randomVal = Math.random();
+                if (randomVal >= barrierFreq) {
+                    this.setCellType(i, j, "empty");
+                } else {
+                    this.setCellType(i, j, "barrier");
+                }
+            }
+        }
+    }
 }

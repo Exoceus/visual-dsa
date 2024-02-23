@@ -1,4 +1,6 @@
-export default async function dijkstra(pathfindingState) {
+import {breakAlgo, setAlgoStatus} from "../dom/algoStatus.js";
+
+export async function dijkstra(pathfindingState) {
     let start = pathfindingState.getStartCell();
     let end = pathfindingState.getEndCell();
 
@@ -11,7 +13,11 @@ export default async function dijkstra(pathfindingState) {
 
     while (queue.length > 0) {
         let curr = shiftMinDistCell(queue);
-        console.log(curr);
+
+        if (breakAlgo()) {
+            setAlgoStatus("stopped");
+            break;
+        }
 
         let neighbours = getNeighours({row: curr.row, column: curr.column}, pathfindingState);
 
@@ -34,6 +40,8 @@ export default async function dijkstra(pathfindingState) {
             break;
         }
     }
+
+    setAlgoStatus("stopped");
 }
 
 function shiftMinDistCell(queue) {

@@ -1,4 +1,6 @@
-export default async function aStar(pathfindingState) {
+import {breakAlgo, setAlgoStatus} from "../dom/algoStatus.js";
+
+export async function aStar(pathfindingState) {
     let start = pathfindingState.getStartCell();
     let end = pathfindingState.getEndCell();
 
@@ -11,7 +13,11 @@ export default async function aStar(pathfindingState) {
 
     while (queue.length > 0) {
         let curr = shiftMinDistCell(queue, end);
-        console.log(curr);
+
+        if (breakAlgo()) {
+            setAlgoStatus("stopped");
+            return;
+        }
 
         let neighbours = getNeighours({row: curr.row, column: curr.column}, pathfindingState);
 
@@ -34,6 +40,8 @@ export default async function aStar(pathfindingState) {
             break;
         }
     }
+
+    setAlgoStatus("stopped");
 }
 
 function euclideanDistance(a, b) {

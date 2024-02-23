@@ -1,4 +1,6 @@
-export default async function breadthFirstSearch(pathfindingState) {
+import {breakAlgo, setAlgoStatus} from "../dom/algoStatus.js";
+
+export async function breadthFirstSearch(pathfindingState) {
     let start = pathfindingState.getStartCell();
     let end = pathfindingState.getEndCell();
 
@@ -9,6 +11,11 @@ export default async function breadthFirstSearch(pathfindingState) {
 
     while (queue.length > 0) {
         let curr = queue.shift();
+
+        if (breakAlgo()) {
+            setAlgoStatus("stopped");
+            break;
+        }
 
         let neighbours = getNeighours(curr, pathfindingState);
         for (let cell of neighbours) {
@@ -30,6 +37,7 @@ export default async function breadthFirstSearch(pathfindingState) {
             break;
         }
     }
+    setAlgoStatus("stopped");
 }
 
 function showPath(pathfindingState, path, endPoint, startPoint) {
