@@ -1,21 +1,25 @@
-export default async function breadthFirstSearch(pathfindingState) {
+export default async function dijkstra(pathfindingState) {
     let start = pathfindingState.getStartCell();
     let end = pathfindingState.getEndCell();
 
-    let queue = [start];
+    let queue = [];
     let path = {};
 
     let endReached = false;
 
-    while (queue.length > 0) {
-        let curr = queue.shift();
+    queue.push({...start, distance: 0});
 
-        let neighbours = getNeighours(curr, pathfindingState);
+    while (queue.length > 0) {
+        let curr = shiftMinDistCell(queue);
+        console.log(curr);
+
+        let neighbours = getNeighours({row: curr.row, column: curr.column}, pathfindingState);
+
         for (let cell of neighbours) {
             let {row, column} = cell;
             if (pathfindingState.getCellType(row, column) == "empty") {
                 pathfindingState.setCellType(row, column, "visited");
-                queue.push({row, column});
+                queue.push({row, column, distance: curr.distance + 1});
                 path[`${row}-${column}`] = `${curr.row}-${curr.column}`;
             }
             if (pathfindingState.getCellType(row, column) == "end") {
@@ -30,6 +34,22 @@ export default async function breadthFirstSearch(pathfindingState) {
             break;
         }
     }
+}
+
+function shiftMinDistCell(queue) {
+    let minDistanceCell = null;
+    let targetIndex = -1;
+
+    for (let i = 0; i < queue.length; i++) {
+        if (minDistanceCell == null || minDistanceCell.distance > queue[i].distance) {
+            minDistanceCell = queue[i];
+            targetIndex = i;
+        }
+    }
+
+    queue.splice(targetIndex, 1);
+
+    return minDistanceCell;
 }
 
 function showPath(pathfindingState, path, endPoint, startPoint) {

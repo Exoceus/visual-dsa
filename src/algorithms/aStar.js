@@ -1,21 +1,25 @@
-export default async function breadthFirstSearch(pathfindingState) {
+export default async function aStar(pathfindingState) {
     let start = pathfindingState.getStartCell();
     let end = pathfindingState.getEndCell();
 
-    let queue = [start];
+    let queue = [];
     let path = {};
 
     let endReached = false;
 
-    while (queue.length > 0) {
-        let curr = queue.shift();
+    queue.push({...start, distance: 0});
 
-        let neighbours = getNeighours(curr, pathfindingState);
+    while (queue.length > 0) {
+        let curr = shiftMinDistCell(queue, end);
+        console.log(curr);
+
+        let neighbours = getNeighours({row: curr.row, column: curr.column}, pathfindingState);
+
         for (let cell of neighbours) {
             let {row, column} = cell;
             if (pathfindingState.getCellType(row, column) == "empty") {
                 pathfindingState.setCellType(row, column, "visited");
-                queue.push({row, column});
+                queue.push({row, column, distance: euclideanDistance(cell, end)});
                 path[`${row}-${column}`] = `${curr.row}-${curr.column}`;
             }
             if (pathfindingState.getCellType(row, column) == "end") {
@@ -30,6 +34,26 @@ export default async function breadthFirstSearch(pathfindingState) {
             break;
         }
     }
+}
+
+function euclideanDistance(a, b) {
+    return Math.sqrt((a.row - b.row) ** 2 + (a.column - b.column) ** 2);
+}
+
+function shiftMinDistCell(queue, end) {
+    let minDistanceCell = null;
+    let targetIndex = -1;
+
+    for (let i = 0; i < queue.length; i++) {
+        if (minDistanceCell == null || minDistanceCell.distance > euclideanDistance(queue[i], end)) {
+            minDistanceCell = queue[i];
+            targetIndex = i;
+        }
+    }
+
+    queue.splice(targetIndex, 1);
+
+    return minDistanceCell;
 }
 
 function showPath(pathfindingState, path, endPoint, startPoint) {
