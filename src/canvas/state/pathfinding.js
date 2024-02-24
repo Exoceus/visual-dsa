@@ -11,9 +11,9 @@ export default class PathfindingState extends CanvasState {
     }
 
     cellColors = {
-        empty: "black",
+        empty: "#0D1116",
         barrier: "white",
-        start: "yellow",
+        start: "orange",
         end: "red",
         visited: "blue",
         path: "green",

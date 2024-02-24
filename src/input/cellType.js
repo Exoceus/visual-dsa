@@ -1,5 +1,5 @@
 const cellTypeInput = document.querySelectorAll("input[name=cellType]");
-let currentCellType = "barrier";
+let currentCellType = "start";
 
 cellTypeInput.forEach((radioInput) => {
     radioInput.addEventListener("change", (e) => {
